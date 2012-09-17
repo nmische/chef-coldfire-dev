@@ -18,6 +18,7 @@
 #
 
 # Install some packages
+
 coldfire_dev_pkgs = value_for_platform(
   ["debian","ubuntu",] => {
     "default" => ["default-jre-headless"]
@@ -28,10 +29,6 @@ coldfire_dev_pkgs.each do |pkg|
   package pkg do
     action :install
   end
-end
-
-if node.recipe?("java") && node['java']['install_flavor'] == "oracle"  
-  node['cf902']['java_home'] = node['java']['java_home']
 end
 
 # Set up SSH wrapper
