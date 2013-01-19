@@ -17,19 +17,10 @@
 # limitations under the License.
 #
 
-# Install some packages
+# Get deployment key
 
-coldfire_dev_pkgs = value_for_platform(
-  ["debian","ubuntu",] => {
-    "default" => ["default-jre-headless"]
-  }
-)
+deployment_key = ColdFireGit.get_deployment_key(node)
 
-coldfire_dev_pkgs.each do |pkg|
-  package pkg do
-    action :install
-  end
-end
 
 # Set up SSH wrapper
 
@@ -39,12 +30,13 @@ directory "#{Chef::Config['file_cache_path']}/.ssh" do
   action :create
 end
 
-cookbook_file "#{Chef::Config['file_cache_path']}/.ssh/id_deploy" do
-  source "id_deploy"
+file "#{Chef::Config['file_cache_path']}/.ssh/id_deploy" do
+  action :create
   owner "vagrant"
-  mode 0700
+  mode 00600
+  content deployment_key
 end
-
+d
 directory "#{Chef::Config['file_cache_path']}/.ssh" do
   owner "vagrant"
   recursive true
@@ -58,14 +50,14 @@ end
 
 # Checkout ColdFire
 
-directory "#{node['cf902']['webroot']}/coldfire" do
+directory "#{node['cf10']['webroot']}/coldfire" do
   mode "0777"
   owner "nobody"
   group "vagrant"
   action :create
 end
 
-git "#{node['cf902']['webroot']}/coldfire" do                            
+git "#{node['cf10']['webroot']}/coldfire" do                            
   repository "#{node['coldfire']['git']['repository']}"
   revision "#{node['coldfire']['git']['revision']}"                              
   action :checkout                                     
@@ -74,25 +66,25 @@ end
 
 # Build ColdFire
 
-template "#{node['cf902']['webroot']}/coldfire/local.properties" do
+template "#{node['cf10']['webroot']}/coldfire/local.properties" do
   source "local.properties.erb"
   owner "vagrant"
   mode 0777
 end
 
 execute "ant incremental-all" do
-  cwd "#{node['cf902']['webroot']}/coldfire"
+  cwd "#{node['cf10']['webroot']}/coldfire"
 end
 
 # Configure ColdFusion
 
-coldfusion902_config "debugging" do
+coldfusion10_config "debugging" do
   action :set
   property "DebugProperty"
   args ({"propertyName" => "debugTemplate", "propertyValue" => "coldfire.cfm"})
 end
 
-coldfusion902_config "debugging" do
+coldfusion10_config "debugging" do
   action :set
   property "DebugProperty"
   args ({"propertyName" => "showTimer", "propertyValue" => true})
@@ -114,11 +106,11 @@ end
 
 # Configure ColdFusion data source
 
-coldfusion902_config "datasource" do
+coldfusion10_config "datasource" do
   action :set
   property "MySQL5"
   args ({ "name" => "coldfiretest",
-          "host" => "#{node['ipaddress']}",
+          "host" => "localhost",
           "database" => "coldfiretest",
           "username" => "coldfiretest",
           "password" => "coldfiretest" })
