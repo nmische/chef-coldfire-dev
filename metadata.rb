@@ -10,7 +10,7 @@ supports "ubuntu"
 depends "ant"
 depends "coldfusion10"
 depends "mysql"
-depends "coldfusion10"
+depends "railo334"
 
 recipe "coldfire-dev", "Downloads ColdFire to the ColdFusion webroot and configures the server for development and testing."
 

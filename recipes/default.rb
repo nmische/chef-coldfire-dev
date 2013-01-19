@@ -36,7 +36,7 @@ file "#{Chef::Config['file_cache_path']}/.ssh/id_deploy" do
   mode 00600
   content deployment_key
 end
-d
+
 directory "#{Chef::Config['file_cache_path']}/.ssh" do
   owner "vagrant"
   recursive true
