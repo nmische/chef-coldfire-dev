@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: coldfire
+# Cookbook Name:: coldfire-dev
 # Recipe:: default
 #
 # Copyright 2012, Nathan Mische
@@ -58,8 +58,8 @@ directory "#{node['cf10']['webroot']}/coldfire" do
 end
 
 git "#{node['cf10']['webroot']}/coldfire" do                            
-  repository "#{node['coldfire']['git']['repository']}"
-  revision "#{node['coldfire']['git']['revision']}"                              
+  repository "#{node['coldfire-dev']['git']['repository']}"
+  revision "#{node['coldfire-dev']['git']['revision']}"                              
   action :checkout                                     
   ssh_wrapper "#{Chef::Config['file_cache_path']}/wrap-ssh4git.sh"   
 end

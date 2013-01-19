@@ -14,9 +14,9 @@ REQUIREMENTS
 ATTRIBUTES
 ==========
 
-* `node['coldfire']['git']['repository']` - Path to ColdFire git repo (default: "git@github.com:nmische/ColdFire.git")
-* `node['coldfire']['git']['revision']` - Revison to checkout (default: "master")
-* `node['coldfire']['git']['deployment_key']` - SSH key to use to clone the ColdFire repo. The value may also be set via a data bag. For more info see Deployment Key below.
+* `node['coldfire-dev']['git']['repository']` - Path to ColdFire git repo (default: "git@github.com:nmische/ColdFire.git")
+* `node['coldfire-dev']['git']['revision']` - Revison to checkout (default: "master")
+* `node['coldfire-dev']['git']['deployment_key']` - SSH key to use to clone the ColdFire repo. The value may also be set via a data bag. For more info see Deployment Key below.
 
 DEPLOYMENT KEY
 ==============

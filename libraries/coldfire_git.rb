@@ -1,5 +1,5 @@
 # Cookbook Name:: coldfire-dev
-# Library:: coldfiregit
+# Library:: coldfire_git
 #
 # Copyright 2012, Nathan Mische
 #
