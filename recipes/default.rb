@@ -78,16 +78,20 @@ end
 
 # Configure ColdFusion
 
-coldfusion10_config "debugging" do
-  action :set
-  property "DebugProperty"
-  args ({"propertyName" => "debugTemplate", "propertyValue" => "coldfire.cfm"})
-end
-
-coldfusion10_config "debugging" do
-  action :set
-  property "DebugProperty"
-  args ({"propertyName" => "showTimer", "propertyValue" => true})
+coldfusion10_config "set_colfire_debugging" do
+  action :bulk_set
+  config ( { 
+      "debugging" => { 
+          "debugProperty" => [ 
+              {"propertyName" => "enableDebug", "propertyValue" => true },
+              {"propertyName" => "debugTemplate", "propertyValue" => "coldfire.cfm" },
+              {"propertyName" => "showTimer", "propertyValue" => true}
+          ],
+          "ip" => [
+              { "debugip" => "" } 
+          ]
+      }
+    } )
 end
 
 # Set up database 
@@ -110,7 +114,7 @@ coldfusion10_config "datasource" do
   action :set
   property "MySQL5"
   args ({ "name" => "coldfiretest",
-          "host" => "localhost",
+          "host" => "#{node['ipaddress']}",
           "database" => "coldfiretest",
           "username" => "coldfiretest",
           "password" => "coldfiretest" })
